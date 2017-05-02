@@ -1,19 +1,20 @@
-version: "3"
+version: "2"
+
+networks:
+    web:
+      external: true
+    back:
+      driver: bridge
 
 services:
-#    nextcloud_front:
-#      image: nginx:latest
-#      ports:
-#        - 80:80
-#        - 443:443
-#      volumes:
-#        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-#      depends_on:
-#        - nextcloud_app
+    nextcloud_front:
+      image: nginx:latest
+      volumes:
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      depends_on:
+        - nextcloud_app
     nextcloud_app:
-      image: nextcloud:${NEXTCLOUD_VERSION}
-      ports:
-        - 9000:9000
+      image: nextcloud:${NEXTCLOUD_VERSION}-fpm
       volumes:
         - ${NEXTCLOUD_ROOT}/apps:/var/www/html/apps
         - ${NEXTCLOUD_ROOT}/data:/var/www/html/data
